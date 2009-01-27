@@ -1,0 +1,34 @@
+<%= error_messages_for :rank %>
+
+<% if @ranks.empty? && admin? %>
+  <div class="nav nav-footer">
+    <p class="nav-left"><%= link_to 'Add a New Rank &raquo;', new_rank_path %></p>
+  </div>
+<% end %>
+<% unless @ranks.empty? %>
+  <table cellspacing="0">
+    <thead>
+      <tr>
+        <th class="tcl">Rank</th>
+        <th class="tcl">Minimum Posts</th>
+        <% if admin? %>
+          <th class="tcr"></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% for rank in @ranks %>
+        <tr>
+          <td class="tcl"><%= rank %></td>
+          <td class="tcl"><%= rank.min_posts %></td>
+          <% if admin? %>
+            <td class="tcr">
+              <%= link_to 'Edit', edit_rank_path(rank) if admin? %>&nbsp; 
+              <%= link_to '(x)', rank, :confirm => 'Are you sure?', :method => :delete %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

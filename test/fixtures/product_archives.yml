@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: MyString
+  price: MyString
+  currency: MyString
+  external_id: MyString
+  created_at: 2009-01-27 09:18:17
+  provider: MyString
+
+two:
+  title: MyString
+  price: MyString
+  currency: MyString
+  external_id: MyString
+  created_at: 2009-01-27 09:18:17
+  provider: MyString

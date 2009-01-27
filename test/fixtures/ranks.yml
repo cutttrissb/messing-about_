@@ -1,0 +1,19 @@
+# == Schema Information
+# Schema version: 76
+#
+# Table name: ranks
+#
+#  id        :integer(11)     not null, primary key
+#  title     :string(255)     
+#  min_posts :integer(11)     
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  title: no_posts
+  min_posts: 0
+two:
+  id: 2
+  title: one_post
+  min_posts: 1

@@ -1,0 +1,21 @@
+# == Schema Information
+# Schema version: 76
+#
+# Table name: categories
+#
+#  id       :integer(11)     not null, primary key
+#  name     :string(255)     
+#  position :integer(11)     default(0)
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  name: 'test category'
+  position: '0'
+two:
+  id: 2
+  name: 'second category'
+  position: '0'
+deleteme:
+  name: deleteme

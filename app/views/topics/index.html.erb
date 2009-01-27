@@ -1,0 +1,73 @@
+<% if current_controller == 'categories' %>
+  <div class="info-left">
+    <span class="title"><%=h @category.name %></span>
+    <span class="detail"> &laquo; <%= @forums.map { |f| link_to "#{h f.name}", f } * ", " %></span>
+  </div>
+<% elsif current_controller == 'forums' %>
+  <div class="info-left">
+    <span class="title"><%=h @forum.name %></span>
+    <span class="detail">
+      &laquo; <%= link_to h(@forum.category.name), @forum.category %>
+    </span>
+    <span class="detail">&nbsp;| &nbsp;<%=h @forum.description %></span>
+  </div>
+<% end %>
+<div class="clear"> </div>
+
+<% if !@topics.blank? %>
+  <table cellspacing="0" class="topics-index">
+    <thead>
+      <tr>
+        <th class="tcl" colspan="2"><%= link_to 'Topics', topics_path %></th>
+        <% if %w(categories topics).include?(current_controller) %>
+          <th class="tcl tcf">Forum</th>
+        <% end %>
+        <th class="tcm">Replies</th>
+        <% unless current_controller == 'home' %>
+          <th class="tcm">Views</th>
+        <% end %>
+        <th class="tcr"><%= link_to 'Activity', posts_path %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for topic in @topics %>
+        <tr>
+          <td class="tci"><%= icon_for(topic) %></td>
+          <td class="tcl">
+            <span class="topic-status"><%= 'Sticky' if topic.sticky? %> <%= 'Locked' if topic.locked? %></span>
+            <%= link_to h(topic.title), topic %> by <%=h topic.user.login %>
+          </td>
+          <% if %w(categories topics).include?(current_controller) %>
+            <td class="tcl">
+              <%= link_to h(topic.forum.name), topic.forum %>
+            </td>
+          <% end %>
+          <td class="tcm"><%= number_with_delimiter(topic.replies) %></td>
+          <% unless current_controller == 'home' %>
+            <td class="tcm"><%= number_with_delimiter(topic.views) %></td>
+          <% end %>
+          <td class="tcr">
+            <%= link_to time_ago_or_time_stamp(topic.last_post_at), show_new_topic_path(topic) %> 
+            by <%=h topic.last_poster.login %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <% if current_controller == 'categories' %>
+    <div class="nav nav-footer">
+      <p class="nav-left">
+        <% if @category.forums.blank? %>
+          <%= link_to 'Create a New Forum &raquo;', new_forum_path(:category_id => @category.id) %>
+        <% else %>
+          <%= link_to 'Start a New Topic &raquo;', new_topic_path %>
+        <% end %>
+      </p>
+    </div>
+  <% elsif current_controller == 'forums' %>
+    <div class="nav nav-footer">
+      <p class="nav-left"><%= link_to 'Start a New Topic &raquo;', new_topic_path(:forum_id => @forum.id) %></p>
+    </div>
+  <% end %>
+<% end %>

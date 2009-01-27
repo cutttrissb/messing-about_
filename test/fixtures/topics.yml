@@ -1,0 +1,71 @@
+# == Schema Information
+# Schema version: 76
+#
+# Table name: topics
+#
+#  id           :integer(11)     not null, primary key
+#  user_id      :integer(11)     
+#  title        :string(255)     
+#  created_at   :datetime        
+#  views        :integer(11)     default(0)
+#  posts_count  :integer(11)     default(0)
+#  last_post_id :integer(11)     
+#  last_post_at :datetime        
+#  last_post_by :integer(11)     
+#  locked       :boolean(1)      
+#  sticky       :boolean(1)      
+#  forum_id     :integer(11)     
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+Testing:
+  id: 1
+  user_id: 4
+  title: Testing
+  created_at: <%= 3.weeks.ago.to_s :db %>
+  views: 31
+  posts_count: 3
+  last_post_id: 3
+  last_post_at: <%= 1.week.ago.to_s :db %>
+  last_post_by: 1
+  locked: 0
+  forum_id: 1
+Private:
+  id: 2
+  user_id: 4
+  title: Private
+  created_at: <%= 5.days.ago.to_s :db %>
+  views: 31
+  posts_count: 1
+  last_post_id: 1
+  last_post_at: <%= 5.minutes.ago.to_s :db %>
+  last_post_by: 2
+  locked: 0
+  forum_id: 1
+Locked:
+  id: 3
+  user_id: 4
+  title: Private
+  created_at: <%= 5.days.ago.to_s :db %>
+  views: 31
+  posts_count: 1
+  last_post_id: 1
+  last_post_at: <%= 5.minutes.ago.to_s :db %>
+  last_post_by: 2
+  locked: 1
+  forum_id: 1
+moving:
+  id: 4
+  user_id: 4
+  title: moving
+  forum_id: 2
+  last_post_id: 7
+  last_post_at: <%= 5.minutes.ago.to_s :db %>
+  last_post_by: 4
+deleteme:
+  user_id: 4
+  title: deleteme
+  forum: deleteme
+  last_post_id: 6
+  last_post_at: <%= 5.minutes.ago.to_s :db %>
+  last_post_by: 4

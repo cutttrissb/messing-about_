@@ -1,0 +1,15 @@
+<div class="info-left">
+  <span class="title"><%=h @event.title %></span>
+  <span class="detail">
+    by <%= link_to h(@event.user.login), @event.user %>
+    <%= @event.reminder? ? '&nbsp;|&nbsp; Reminder' : '' %>
+  </span>
+</div>
+<div style="clear:both;margin-bottom:-10px;"> </div>
+
+<blockquote>
+  <p style="margin-top:0;font-weight:bold;">
+    <%= time_stamp(@event.date) %>
+  </p>
+  <%= bb(@event.description) %>
+</blockquote>

@@ -1,0 +1,10 @@
+<div id="primary">
+  <%= render :partial => 'articles/article', :locals => { :article => @article } %>
+  <div id="comments">
+    <%= render :partial => 'comments/comments', :locals => { :article => @article } %>
+    <%= render :partial => 'comments/new', :locals => { :article => @article } %>
+  </div>
+</div>
+<div id="secondary">
+  <%= render :partial => 'articles/secondary'%>
+</div>

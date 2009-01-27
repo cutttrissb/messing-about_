@@ -1,0 +1,48 @@
+<% if !@uploads.blank? %>
+  <table cellspacing="0">
+    <thead>
+      <tr>
+        <th class="tcl" colspan="2"><%= link_to 'Files', files_path %></th>
+        <% unless current_controller == 'home' %>
+          <th class="tcl">Type</th>
+          <th class="tcm">Size</th>
+          <th class="tcr">Uploaded</th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% for upload in @uploads %>
+        <tr>
+          <td class="tci"><%= icon_for(upload) %></td>
+          <td class="tcl">
+            <%= link_to truncate(upload.filename, :length => 25), upload.public_filename %>
+            
+            <% unless current_controller == 'home' %>
+              <%= link_to_function '(&raquo;)', "$('mp3-#{upload.public_filename}').toggle()" if upload.is_mp3? %>
+            <% end %>
+            
+            by <%=h upload.user.login %>
+            
+            <% unless current_controller == 'home' %>
+              <%= link_to '(x)', upload, :confirm => 'Are you sure?', :method => :delete if can_edit?(upload) %>
+            <% end %>
+            
+            <% unless current_controller == 'home' %>
+              <% if upload.is_mp3? %>
+                <div id="<%= "mp3-#{upload.public_filename}" %>" style="display:none;">
+                  <%= bb("[mp3]#{root_url.chop + upload.public_filename}[/mp3]") %>
+                </div>
+              <% end %>
+            <% end %>
+            
+          </td>
+          <% unless current_controller == 'home' %>
+            <td class="tcl"><%= upload.content_type %></td>
+            <td class="tcm"><%= number_to_human_size(upload.size) %></td>
+            <td class="tcr"><%= time_ago_or_time_stamp(upload.created_at) %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -1,0 +1,67 @@
+
+<% if @products != nil %>
+
+  <div>
+  <%=
+    will_paginate @products
+  %> 
+  </div>
+  <div id="itsthetable">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Currency</th>
+      <th>Price</th>
+      <th>Provider</th>
+      <th>Image</th>
+<!--       <th>Description</th>
+      <th>Url</th>
+      <th>External</th>
+      <th>Rrp</th>
+      <th>In stock</th> -->
+    </tr>
+    </thead>
+    <tbody>
+      <% for product in @products %>
+        <tr>
+          <td>
+            <a href="<%=h product.url %>">
+              <%=h product.title %>
+            </a>
+          </td>
+          <td><%=h product.currency %></td>
+          <td><%=h product.price %></td>
+          <td><%=h product.provider %></td>
+          <td>
+            <%
+              if product.image_url == ""
+                %>
+                <%
+              else
+                %>
+                  <img width=50px height=50px src="<%=h product.image_url %>" alt="None" /></td>
+                <%
+              end
+            %>   
+<!--            <td><%=h product.description %></td>
+          <td><%=h product.external_id %></td>
+          <td><%=h product.rrp %></td>
+          <td><%=h product.in_stock %></td> -->
+        </tr>
+        
+      <% end %>
+    </tbody>
+  </table>
+  </div>
+
+
+  <br />
+  <div>
+  <%=
+    will_paginate @products
+  %> 
+  </div>
+
+<% end %>
+

@@ -1,0 +1,113 @@
+# == Schema Information
+# Schema version: 76
+#
+# Table name: users
+#
+#  id                 :integer(11)     not null, primary key
+#  login              :string(255)     
+#  email              :string(255)     
+#  password_hash      :string(255)     
+#  created_at         :datetime        
+#  admin              :boolean(1)      
+#  posts_count        :integer(11)     default(0)
+#  signature          :string(255)     
+#  bio                :text            
+#  profile_updated_at :datetime        
+#  online_at          :datetime        
+#  avatar             :string(255)     
+#  auth_token         :string(255)     
+#  auth_token_exp     :datetime        
+#  time_zone          :string(255)     
+#  ban_message        :string(255)     
+#  banned_until       :datetime        
+#  chatting_at        :datetime        
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+Guest:
+  id: 1
+  login: Guest
+  email: guest@test.com
+  password_hash: <%= User.encrypt('testy') %>
+  posts_count: 0
+  created_at: <%= 5.days.ago.to_s :db %>
+  profile_updated_at: <%= 5.hours.ago.to_s :db %>
+  online_at: <%= 5.hours.ago.to_s :db %>
+  all_viewed_at: <%= 5.hours.ago.to_s :db %>
+  time_zone: 'UTC'
+Administrator:
+  id: 2
+  login: Administrator
+  email: admin@test.com
+  password_hash: <%= User.encrypt('test') %>
+  admin: 1
+  posts_count: 1
+  created_at: <%= 5.days.ago.to_s :db %>
+  profile_updated_at: <%= 5.hours.ago.to_s :db %>
+  online_at: <%= 5.hours.ago.to_s :db %>
+  all_viewed_at: <%= 5.hours.ago.to_s :db %>
+  bio: 'admin'
+  auth_token: 153c53039f6e8e8ca832d1512702f412298ec3a9
+  auth_token_exp: <%= (Time.now.utc - 1.week).to_s :db %> # expired
+  time_zone: 'UTC'
+Timothy:
+  id: 3
+  login: Timothy
+  email: tim@test.com
+  posts_count: 3450
+  password_hash: <%= User.encrypt('test') %>
+  created_at: <%= 5.days.ago.to_s :db %>
+  profile_updated_at: <%= 5.hours.ago.to_s :db %>
+  online_at: <%= 5.hours.ago.to_s :db %>
+  all_viewed_at: <%= 5.hours.ago.to_s :db %>
+  auth_token: 244cd62e5130681b86c01f8de9e9762d9a3f3645
+  auth_token_exp: <%= (Time.now.utc + 1.week).to_s :db %> # not expired
+  time_zone: 'UTC'
+trevor:
+  id: 4
+  login: trevor
+  email: trevor@test.com
+  posts_count: 1000
+  password_hash: <%= User.encrypt('test') %>
+  created_at: <%= 5.days.ago.to_s :db %>
+  profile_updated_at: <%= 5.hours.ago.to_s :db %>
+  online_at: <%= 5.hours.ago.to_s :db %>
+  all_viewed_at: <%= 5.hours.ago.to_s :db %>
+  bio: 'my bio'
+  avatar: 4.gif
+  time_zone: 'UTC'
+banned:
+  id: 5
+  login: banned
+  email: banned@test.com
+  posts_count: 0
+  password_hash: <%= User.encrypt('test') %>
+  created_at: <%= 5.days.ago.to_s :db %>
+  profile_updated_at: <%= 5.hours.ago.to_s :db %>
+  online_at: <%= 5.hours.ago.to_s :db %>
+  all_viewed_at: <%= 5.hours.ago.to_s :db %>
+  time_zone: 'UTC'
+  ban_message: 'get banned!'
+  banned_until: <%= (Time.now.utc + 5.days).to_s :db %>
+post_test:
+  id: 6
+  login: post
+  email: post@test.com
+  posts_count: 0
+  password_hash: <%= User.encrypt('test') %>
+  created_at: <%= 5.days.ago.to_s :db %>
+  profile_updated_at: <%= 5.hours.ago.to_s :db %>
+  online_at: <%= 2.weeks.ago.to_s :db %>
+  all_viewed_at: <%= 5.hours.ago.to_s :db %>
+  time_zone: 'UTC'
+noposts:
+  id: 7
+  login: noposts
+  email: noposts@test.com
+  posts_count: 0
+  password_hash: <%= User.encrypt('test') %>
+  created_at: <%= 5.days.ago.to_s :db %>
+  profile_updated_at: <%= 5.hours.ago.to_s :db %>
+  online_at: <%= 2.weeks.ago.to_s :db %>
+  all_viewed_at: <%= 5.hours.ago.to_s :db %>
+  time_zone: 'UTC'
