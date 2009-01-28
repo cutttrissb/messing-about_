@@ -11,14 +11,12 @@ include EM::Protocols
 class Gdi < Scraper::Base
   attr_accessor      :title, :price,:description,:url,:image_url,:currency,:external_id,:rrp,:in_stock,:created_at,:updated_at,:provider
 
-  def write 
-    
+  def write( base_currency, exchange_rate) 
     # We are going to pass in generic_item and process it into the database
     db = SQLite3::Database.open( '\Ruby\TutorialRails\BikeForum\db\development.sqlite3')
     db.execute( "delete from products where provider=? and (external_id = ? or title = ?)", provider, external_id, title)
-    db.execute( "insert into products (title, price, currency,url,image_url,external_id, rrp, in_stock, created_at, updated_at, provider) values ( ?, ?, ?, ?, ?, ?, ?, ?, Datetime('Now'), ?, ?)", title, price, currency, url,image_url, external_id, rrp, in_stock, updated_at, provider)
+    db.execute( "insert into products (title, display_currency, price, currency,url,image_url,external_id, rrp, in_stock, created_at, updated_at, provider) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, Datetime('Now'), ?, ?)", title, price.to_f * exchange_rate,  price, exchange_rate, url,image_url, external_id, rrp, in_stock, updated_at, provider)
     db.close
-    
   end
 
 end

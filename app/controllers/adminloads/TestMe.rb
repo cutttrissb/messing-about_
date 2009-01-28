@@ -20,7 +20,6 @@ a = WriteToDataBase.new()
 pbk_arr = []
 
 pbk_arr <<  Wiggle.new("shimano").items
-
 pbk_arr << ProBike.new("T0004").items
 pbk_arr <<  ProBike.new("NP05438").items
 pbk_arr <<  ProBike.new("NP05439").items

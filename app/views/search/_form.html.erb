@@ -4,21 +4,25 @@
     <p>
       <select id="type" name="type" onchange="javascript:$('query').focus();">
         <option<%= ' selected="selected"' if params[:type] == 'products' || current_controller == 'products' %> value='products'>Products</option>
+        <option value='products'>-----------------------</option>
         <option<%= ' selected="selected"' if params[:type] == 'articles' || current_controller == 'articles' %> value='articles'>Articles</option>
-        <option<%= ' selected="selected"' if params[:type] == 'avatars' || current_controller == 'avatars' %> value='avatars'>Avatars</option>
+        <!--<option<%= ' selected="selected"' if params[:type] == 'avatars' || current_controller == 'avatars' %> value='avatars'>Avatars</option>-->
         <option<%= ' selected="selected"' if params[:type] == 'messages' || current_controller == 'messages' %> value='messages'>Chat</option>
-        <option<%= ' selected="selected"' if params[:type] == 'events' || current_controller == 'events' %> value='events'>Events</option>
-        <option<%= ' selected="selected"' if %w(uploads files).include?(params[:type]) || current_controller == 'uploads' %> value='files'>Files</option>
-        <option<%= ' selected="selected"' if params[:type] == 'headers' || current_controller == 'headers' %> value='headers'>Headers</option>
+        <!--<option<%= ' selected="selected"' if params[:type] == 'events' || current_controller == 'events' %> value='events'>Events</option>-->
+        <!--<option<%= ' selected="selected"' if %w(uploads files).include?(params[:type]) || current_controller == 'uploads' %> value='files'>Files</option>-->
+        <!--<option<%= ' selected="selected"' if params[:type] == 'headers' || current_controller == 'headers' %> value='headers'>Headers</option>-->
         <option<%= ' selected="selected"' if params[:type] == 'posts' || current_controller == 'posts' %> value='posts'>Posts</option>
         <option<%= ' selected="selected"' if %w(categories forums topics).include?(params[:type]) %> value='topics'>Topics</option>
         <option<%= ' selected="selected"' if params[:type] == 'users' || current_controller == 'users' %> value='users'>Users</option>
-      </select> &nbsp;
+      </select> &nbsp;for&nbsp;
       <%= text_field_tag :query, params[:query], :id => :query, :style => "width:33%" %>
-    </p>
-    <p>
+    <!--</p>-->
+    <!--<p>-->
+
+
       <%= submit_tag "Search", :disable_with => "Search" %>&nbsp;
       <%= link_to 'Cancel', root_path %>
+      Eg: Search for 'Ultegra Cassette'
     </p>
   </div>
 <% end %>

@@ -53,10 +53,6 @@ class WiggleItemInfo < Gdi
     @provider = "WIGGLE"
   end
   
-  # Override the currency accessor (for now)
-  def currency
-    @curreny = "GBP"
-  end
 end
 
 class WiggleItem < Scraper::Base
@@ -71,45 +67,54 @@ class Wiggle
   
   # items will return an array from the Wiggle's website 
   # which will contain all the (first page for now's) information
-  def execute(searchText)
+  def execute(searchText, base_currency, exchange_rate)
+    
+    # All our code in this module needs to catch any errors that are reported
+    # and simply exit gracefully.  Check the logs after the load to see what failed
+    begin
+      
+      @search_string = searchText
+      
+      dataBack_pbk = nil
+      dataBack_wiggle = nil
+      
+      EventMachine::run do
+        EventMachine::connect "www.wiggle.co.uk", 80, Server do |server_wiggle|
   
-    @search_string = searchText
-    
-    dataBack_pbk = nil
-    dataBack_wiggle = nil
-    
-    EventMachine::run do
-      EventMachine::connect "www.wiggle.co.uk", 80, Server do |server_wiggle|
-
-        #p "Inside EM Connect(Wiggle)"
-
-        long_data = "GET /m/Cycle/7/" << @search_string << "/ HTTP/1.1\r\n"
-        long_data = long_data << "Host: www.google.com\r\n"
-        long_data = long_data << "Connection: close\r\n\r\n"
-
-        p long_data
-        server_wiggle.send_data(long_data)
-        #p ("Sent Wiggle Data")
-        dataBack_wiggle = server_wiggle.getdata
+          #p "Inside EM Connect(Wiggle)"
+  
+          long_data = "GET /m/Cycle/7/" << @search_string << "/ HTTP/1.1\r\n"
+          long_data = long_data << "Host: www.google.com\r\n"
+          long_data = long_data << "Connection: close\r\n\r\n"
+  
+          p long_data
+          server_wiggle.send_data(long_data)
+          #p ("Sent Wiggle Data")
+          dataBack_wiggle = server_wiggle.getdata
+        
+        end
       
       end
     
-    end
+      #Scraping Wiggle
+      return_array = WiggleItem.scrape(dataBack_wiggle)
   
-    #Scraping Wiggle
-    return_array = WiggleItem.scrape(dataBack_wiggle)
-
-    if (return_array != nil)   
-      a = return_array
-      p "Wiggle Array Length " <<  a.length.to_s
-      a.each  do |loc|
-        p "Writing " << loc.title
-        loc.write()
+      if (return_array != nil)   
+        a = return_array
+        p "Wiggle Array Length " <<  a.length.to_s
+        a.each  do |loc|
+          p "Writing " << loc.title
+          loc.write( base_currency, exchange_rate)
+        end
+      else
+        p "Wiggle return array was empty... try again"
       end
-    else
-      p "Wiggle return array was empty... try again"
+    rescue
+      	print "Failed to execute ProbikeKit. ", $!, "\n"
     end
+
     
   end
+  
   
 end

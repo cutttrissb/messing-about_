@@ -15,7 +15,6 @@ class Product < ActiveRecord::Base
      options = default_options.merge options
      
      p "Page setting was : " << options[:page].to_s
-     
      # get the offset based on what page we're on
      
      #options[:offset] = options[:limit] * (options.delete(:page).to_i-1)  

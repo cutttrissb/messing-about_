@@ -7,7 +7,6 @@ class ProBikeItemInfo < Gdi
   
   process "h1",       :_title => :text  #Going to have to do something more with this!! 
   process ".nBuyItNow",       :_priceInfo => :text
-#  process ".name",        :_image_url => "@onmouseover"
   process ".name",        :url => "@href"
   process "input[name=CODE]", :external_id => "@value"
 
@@ -27,10 +26,6 @@ class ProBikeItemInfo < Gdi
   def url
     p @title
     "http://www.probikekit.com/display.php?code=" << @external_id
-  end
-
-  def currency
-    "GBP"
   end
 
   def price
@@ -155,46 +150,49 @@ class ProBike
   
   # items will return an array from the ProBike's website 
   # which will contain all the (first page for now's) information
-  def execute(searchText)
+  def execute(searchText, base_currency, exchange_rate)
+    begin
+      @item_identifier = searchText
     
-    @item_identifier = searchText
+      databack_pbk = nil
+      
+      EventMachine::run do
+        EventMachine::connect "www.probikekit.com", 80, Server do |server_ProBike|
   
-    databack_pbk = nil
-    
-    EventMachine::run do
-      EventMachine::connect "www.probikekit.com", 80, Server do |server_ProBike|
-
-        p "Inside EM Connect(ProBike)"
-
-        long_data = "GET /display.php?code=" << @item_identifier << " HTTP/1.1\r\n"
-        long_data = long_data << "Host: www.probikekit.com\r\n\r\n"
+          p "Inside EM Connect(ProBike)"
+  
+          long_data = "GET /display.php?code=" << @item_identifier << " HTTP/1.1\r\n"
+          long_data = long_data << "Host: www.probikekit.com\r\n\r\n"
+          
+          p long_data
+  
+          server_ProBike.send_data(long_data)
+          p ("Sent ProBike Data")
+          databack_pbk = server_ProBike.getdata
         
-        p long_data
-
-        server_ProBike.send_data(long_data)
-        p ("Sent ProBike Data")
-        databack_pbk = server_ProBike.getdata
+        end
       
       end
-    
-    end
-    
-    p "ProBike EM Ended"
-
-    #Scraping ProBike
-    return_array = ProBikeItem.scrape(databack_pbk)
-
-    if (return_array != nil)   
-      a = return_array
-      p "ProBikeKit Array Length " <<  a.length.to_s
-      a.each  do |loc|
-        p "Writing " << loc.title
-        loc.write()
+      
+      p "ProBike EM Ended"
+  
+      #Scraping ProBike
+      return_array = ProBikeItem.scrape(databack_pbk)
+  
+      if (return_array != nil)   
+        a = return_array
+        p "ProBikeKit Array Length " <<  a.length.to_s
+        a.each  do |loc|
+          p "Writing " << loc.title
+          loc.write(base_currency, exchange_rate)
+        end
+      else
+        p "ProBikeKit return array was empty... try again"
       end
-    else
-      p "ProBikeKit return array was empty... try again"
+    rescue
+      	print "Failed to execute ProbikeKit. ", $!, "\n"
     end
-
+    
   end
   
 end

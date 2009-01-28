@@ -1,5 +1,7 @@
 
-<% if @products != nil %>
+<div class="clear"> </div>
+
+<% if @products != nil && @products.length != 0 %>
 
   <div>
   <%=
@@ -11,8 +13,8 @@
     <thead>
     <tr>
       <th>Title</th>
-      <th>Currency</th>
       <th>Price</th>
+      <th>Price *</th>
       <th>Provider</th>
       <th>Image</th>
 <!--       <th>Description</th>
@@ -30,8 +32,18 @@
               <%=h product.title %>
             </a>
           </td>
-          <td><%=h product.currency %></td>
-          <td><%=h product.price %></td>
+          <td>
+            <%
+            if product.currency == "GBP"
+              #Add more as we increase the currency options
+            %>
+              <%= number_to_currency product.price, :unit => "&pound;" %>
+            <%
+            end
+            %>
+          </td>
+          <td><%= number_to_currency product.display_currency %></td>
+          
           <td><%=h product.provider %></td>
           <td>
             <%
@@ -63,5 +75,11 @@
   %> 
   </div>
 
-<% end %>
+<%
+else
+  %>
+  No search results.  Try making the search more generic. Eg Ultegra Brake
+  
+  <%
 
+end %>
